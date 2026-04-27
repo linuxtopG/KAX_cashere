@@ -7,11 +7,11 @@
 A powerful, modern cash register application for managing sales, products, and inventory 
 ---
 
-## 🇬🇧 English - English
+
 
 ### 📋 Description
 
-**KAX - Cacio** is a powerful, modern Point of Sale (POS) application designed specifically for managing sales operations in small to medium-sized stores. Built as a single-file web application for easy deployment and usage.
+**KAX** is a powerful, modern Point of Sale (POS) application designed specifically for managing sales operations in small to medium-sized stores. Built as a single-file web application for easy deployment and usage.
 
 ### ✨ Features
 
