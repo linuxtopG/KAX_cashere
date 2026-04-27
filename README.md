@@ -56,6 +56,7 @@ and prices |
   - List of sold products with quantities and prices
   - Grand total
 - Click "Print" to print the receipt
+- to delete the finel receit pas"1234567890"
 
 #### 6. Settings
 - Click the Settings icon ⚙️
