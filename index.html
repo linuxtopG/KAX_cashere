@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        :root { --p: #4f46e5; --ph: #4338ca; --s: #10b981; --d: #ef4444; --w: #f59e0b; --bg: #f9fafb; --w2: #fff; --t: #1f2937; --tl: #6b7280; --b: #e5e7eb; --sh: 0 4px 6px -1px rgba(0,0,0,0.1); --shl: 0 10px 15px -3px rgba(0,0,0,0.1); --shx: 0 20px 25px -5px rgba(0,0,0,0.1); --c: #fff; --in: #fff; --ov: rgba(0,0,0,0.6); --hb: #eef2ff; --hbo: #c7d2fe; --body: linear-gradient(135deg,#f3f4f6,#e5e7eb); --hdr: linear-gradient(135deg,#4f46e5,#6366f1); }
+        [data-theme="dark"] { --p: #818cf8; --ph: #6366f1; --s: #34d399; --d: #f87171; --w: #fbbf24; --bg: #1f2937; --w2: #111827; --t: #f3f4f6; --tl: #9ca3af; --b: #374151; --sh: 0 4px 6px -1px rgba(0,0,0,0.3); --shl: 0 10px 15px -3px rgba(0,0,0,0.4); --shx: 0 20px 25px -5px rgba(0,0,0,0.5); --c: #1f2937; --in: #374151; --ov: rgba(0,0,0,0.8); --hb: #312e81; --hbo: #4338ca; --body: #0f172a; --hdr: linear-gradient(135deg,#1e1b4b,#312e81); }
+        body { background: var(--body); min-height: 100vh; padding: 20px; transition: all .3s; }
+        .app { max-width: 1400px; margin: 0 auto; background: var(--w2); border-radius: 24px; box-shadow: var(--shx); overflow: hidden; display: flex; flex-direction: column; height: calc(100vh - 40px); }
+        .hdr { background: var(--hdr); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; color: #fff; }
+        .logo { display: flex; align-items: center; gap: 15px; }
+        .logo i { font-size: 36px; background: rgba(255,255,255,0.2); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
+        .logo h1 { font-size: 24px; font-weight: 700; }
+        .hi { display: flex; align-items: center; gap: 20px; }
+        .hi .d { font-size: 14px; opacity: .9; }
+        .hi .t { font-size: 18px; font-weight: 600; }
+        .btn-s { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 40px; height: 40px; border-radius: 10px; cursor: pointer; font-size: 18px; transition: all .3s; }
+        .btn-s:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
+        .main { display: flex; flex: 1; overflow: hidden; }
+        .sb { width: 220px; background: var(--bg); border-left: 1px solid var(--b); display: flex; flex-direction: column; }
+        .sbh { padding: 20px; border-bottom: 1px solid var(--b); }
+        .sbh h3 { color: var(--t); font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .src { position: relative; margin-top: 15px; }
+        .src input { width: 100%; padding: 12px 45px 12px 15px; border: 2px solid var(--b); border-radius: 10px; background: var(--in); color: var(--t); font-size: 14px; outline: none; }
+        .src input:focus { border-color: var(--p); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+        .src i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--tl); }
+        .btn-ap { width: 100%; padding: 10px; background: var(--p); color: #fff; border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 600; margin-top: 10px; }
+        .btn-ap:hover { background: var(--ph); }
+        .kb { margin-top: 10px; padding: 8px 12px; background: var(--hb); border-radius: 8px; color: var(--p); font-size: 12px; text-align: center; border: 1px solid var(--hbo); }
+        .ps { flex: 1; padding: 30px; overflow-y: auto; background: var(--bg); }
+        .ps h2 { color: var(--t); font-size: 24px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .pg { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .pc { background: var(--c); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; box-shadow: var(--sh); position: relative; }
+        .pc:hover { transform: translateY(-5px); box-shadow: var(--shl); }
+        .pc .pk { position: absolute; top: 10px; left: 10px; background: var(--p); color: #fff; width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; z-index: 2; }
+        .pc .pi { width: 100px; height: 100px; margin: 0 auto 10px; background: linear-gradient(135deg,#f0f9ff,#e0f2fe); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; position: relative; }
+        [data-theme="dark"] .pc .pi { background: linear-gradient(135deg,#1e293b,#334155); }
+        .pc .pi img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .pc .pi .up { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.6); color: #fff; font-size: 11px; padding: 4px; opacity: 0; }
+        .pc .pi:hover .up { opacity: 1; }
+        .pc .pn { color: var(--t); font-size: 16px; font-weight: 600; margin-bottom: 8px; height: 36px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .pc .pp { color: var(--p); font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+        .pa { display: flex; gap: 6px; }
+        .pa button { flex: 1; padding: 7px; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .pa .add { background: var(--p); color: #fff; }
+        .pa .ed { background: var(--w); color: #fff; }
+        .pa .del { background: var(--d); color: #fff; }
+        .pa .img { background: var(--s); color: #fff; }
+        .pa .key { background: var(--p); color: #fff; }
+        .ss { width: 320px; background: var(--w2); border-left: 1px solid var(--b); display: flex; flex-direction: column; }
+        .ss h2 { color: var(--t); font-size: 20px; font-weight: 700; padding: 20px; border-bottom: 1px solid var(--b); display: flex; align-items: center; gap: 10px; }
+        .sc { flex: 1; padding: 20px; overflow-y: auto; }
+        .se { text-align: center; padding: 40px 20px; color: var(--tl); }
+        .se i { font-size: 64px; margin-bottom: 15px; opacity: .3; }
+        .shdr { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--bg); border-radius: 12px; margin-bottom: 15px; }
+        .scnt { font-size: 14px; font-weight: 600; color: var(--tl); }
+        .scnt span { color: var(--t); font-size: 18px; }
+        .stot { font-size: 16px; font-weight: 700; color: var(--p); }
+        .sitems { margin-bottom: 15px; }
+        .sit { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: var(--bg); border-radius: 10px; margin-bottom: 10px; }
+        .sii { flex: 1; }
+        .sin { color: var(--t); font-weight: 600; font-size: 14px; }
+        .sid { color: var(--tl); font-size: 11px; }
+        .sitot { color: var(--s); font-weight: 700; font-size: 15px; }
+        .sit .ds { background: none; border: none; color: var(--d); cursor: pointer; font-size: 18px; margin-right: 10px; padding: 4px 8px; border-radius: 6px; }
+        .sit .ds:hover { background: #fee2e2; }
+        .str { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--bg); border-radius: 12px; }
+        .stl { color: var(--t); font-weight: 600; }
+        .stv { color: var(--s); font-size: 20px; font-weight: 700; }
+        .btn-da { width: 100%; padding: 12px; background: var(--d); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; }
+        .btn-da:hover { background: #dc2626; }
+        .cs { flex: 1; background: var(--w2); border-left: 1px solid var(--b); display: flex; flex-direction: column; }
+        .ch { padding: 20px; background: var(--bg); border-bottom: 1px solid var(--b); display: flex; justify-content: space-between; align-items: center; }
+        .ch h3 { color: var(--t); font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .cc { background: var(--p); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 600; }
+        .ccl { background: var(--d); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+        .ccl:hover { background: #dc2626; }
+        .citems { flex: 1; overflow-y: auto; padding: 20px; }
+        .cempty { text-align: center; padding: 60px 20px; color: var(--tl); }
+        .cempty i { font-size: 64px; margin-bottom: 15px; opacity: .3; }
+        .cit { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--b); }
+        .cit:last-child { border-bottom: none; }
+        .cii { flex: 1; }
+        .cin { color: var(--t); font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .cip { color: var(--tl); font-size: 13px; }
+        .citot { font-size: 18px; font-weight: 700; color: var(--p); }
+        .cit .rm { background: none; border: none; color: var(--d); cursor: pointer; font-size: 18px; margin-left: 10px; }
+        .csum { padding: 20px; background: var(--bg); border-top: 1px solid var(--b); }
+        .srow { display: flex; justify-content: space-between; margin-bottom: 12px; color: var(--tl); font-size: 15px; }
+        .srow. tot { font-size: 22px; font-weight: 700; color: var(--t); border-top: 2px solid var(--b); padding-top: 20px; margin-top: 15px; }
+        .srow.tot span:last-child { color: var(--p); }
+        .psection { padding: 20px; border-top: 1px solid var(--b); }
+        .pm { display: flex; gap: 10px; margin-bottom: 20px; }
+        .pbtn { flex: 1; padding: 12px; border: 2px solid var(--b); border-radius: 10px; cursor: pointer; background: var(--c); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; color: var(--t); font-weight: 600; }
+        .pbtn.active { background: var(--p); border-color: var(--p); color: #fff; }
+        .bchk { width: 100%; padding: 16px; background: linear-gradient(135deg,var(--s),#059669); color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: var(--sh); }
+        .bchk:hover { transform: translateY(-2px); box-shadow: var(--shl); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--ov); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal.active { display: flex; }
+        .mc { background: var(--c); border-radius: 20px; padding: 40px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shx); }
+        .rh { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid var(--b); }
+        .rh h2 { color: var(--t); font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .bcl { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--tl); }
+        .bcl:hover { color: var(--d); }
+        .ri { margin-bottom: 25px; background: var(--bg); padding: 20px; border-radius: 12px; }
+        .ri p { color: var(--t); font-size: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; }
+        .ri p strong { color: var(--tl); }
+        .ritems { margin-bottom: 25px; }
+        .rit { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--b); }
+        .rit:last-child { border-bottom: none; }
+        .ritn { color: var(--t); font-weight: 500; }
+        .ritp { color: var(--tl); font-size: 14px; }
+        .rtot { padding-top: 20px; border-top: 2px solid var(--b); margin-top: 20px; }
+        .rtot p { color: var(--t); font-size: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; }
+        .rtot p:last-child { font-size: 22px; font-weight: 700; color: var(--p); }
+        .rf { text-align: center; padding-top: 30px; border-top: 1px solid var(--b); margin-top: 20px; }
+        .rf p { color: var(--tl); font-size: 13px; margin-bottom: 8px; }
+        .bpr { width: 100%; padding: 14px; background: var(--p); color: #fff; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px; }
+        .bpr:hover { background: var(--ph); }
+        .hidden { display: none; }
+        .kn { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--p); color: #fff; padding: 20px 40px; border-radius: 16px; font-size: 18px; font-weight: 600; z-index: 9999; box-shadow: var(--shx); animation: kna .8s ease-out forwards; pointer-events: none; }
+        @keyframes kna { 0% { opacity: 1; transform: translate(-50%,-50%) scale(1); } 100% { opacity: 0; transform: translate(-50%,-80%) scale(1.2); } }
+        .sm { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--ov); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .sm.active { display: flex; }
+        .smc { background: var(--c); border-radius: 20px; padding: 30px; max-width: 400px; width: 90%; box-shadow: var(--shx); color: var(--t); }
+        .smc h2 { font-size: 22px; font-weight: 700; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        .ssec { margin-bottom: 25px; }
+        .ssec h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; color: var(--tl); }
+        .topts, .lopts { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tbtn, .lbtn { padding: 10px 18px; border: 2px solid var(--b); border-radius: 10px; cursor: pointer; background: var(--c); color: var(--t); display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; }
+        .tbtn:hover, .lbtn:hover { border-color: var(--p); }
+        .tbtn.active, .lbtn.active { border-color: var(--p); background: var(--p); color: #fff; }
+        .smc .clbtn { width: 100%; padding: 12px; background: var(--p); color: #fff; border: none; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: 600; }
+        .smc .clbtn:hover { background: var(--ph); }
+        @media (max-width: 1024px) { .main { flex-direction: column; } .sb { width: 100%; max-height: 150px; } .ss { width: 100%; } .cs { width: 100%; order: 3; } .ps { order: 1; } }
+        @media (max-width: 768px) { .hdr { flex-direction: column; gap: 15px; text-align: center; } .logo { justify-content: center; } .hi { text-align: center; } .pg { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); } }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="hdr">
+            <div class="logo"><i class="fas fa-cash-register"></i><div><h1 class="tx" data-key="title">كاشير - Cacio</h1></div></div>
+            <div class="hi">
+                <span class="d" id="cd"></span>
+                <span class="t" id="ct"></span>
+                <button class="btn-s" onclick="openSet()"><i class="fas fa-cog"></i></button>
+            </div>
+        </header>
+        <main class="main">
+            <aside class="sb">
+                <div class="sbh">
+                    <h3><i class="fas fa-boxes"></i> <span class="tx" data-key="products">المنتجات</span></h3>
+                    <button class="btn-ap" onclick="addP()"><i class="fas fa-plus"></i> <span class="tx" data-key="addP">إضافة منتج</span></button>
+                    <div class="src"><i class="fas fa-search"></i><input type="text" id="src" class="tx" data-key="search" placeholder="ابحث..." onkeyup="searchP()"></div>
+                    <div class="kb"><i class="fas fa-keyboard"></i> <span class="tx" data-key="kb">اضغط على مفتاح المنتج</span></div>
+                </div>
+            </aside>
+            <section class="ps">
+                <h2><i class="fas fa-boxes"></i> <span class="tx" data-key="products">المنتجات</span> <span id="pC" style="color:var(--p);font-size:18px;margin-right:10px;"></span></h2>
+                <div class="pg" id="pG"></div>
+            </section>
+            <section class="ss">
+                <h2><i class="fas fa-chart-line"></i> <span class="tx" data-key="todaySales">مبيعات اليوم</span></h2>
+                <div class="sc">
+                    <div class="se" id="sE"><i class="fas fa-file-invoice-dollar"></i><p class="tx" data-key="noSales">لا توجد مبيعات</p></div>
+                    <div class="sco" id="sCo" style="display:none">
+                        <div class="shdr"><span class="scnt"><span class="tx" data-key="sales">المبيعات</span>: <span id="sC">0</span></span><span class="stot"><span class="tx" data-key="total">الإجمالي</span>: <span id="sT">0.00</span></span></div>
+                        <div class="sitems" id="sI"></div>
+                        <div class="str"><span class="stl tx" data-key="grand">المجموع الكلي</span><span class="stv" id="sG">0.00</span></div>
+                        <button class="btn-da" onclick="printFinalReceipt()"><i class="fas fa-file-invoice"></i> <span class="tx" data-key="finalReceipt">الفاتورة النهائية</span></button>
+                        <button class="btn-da" style="background:var(--d)" onclick="delAll()"><i class="fas fa-trash"></i> <span class="tx" data-key="delAll">حذف الكل</span></button>
+                    </div>
+                </div>
+            </section>
+            <section class="cs">
+                <div class="ch"><h3><i class="fas fa-shopping-cart"></i> <span class="tx" data-key="cart">السلة</span></h3><span class="cc" id="cC">0</span></div>
+                <div class="ccl" onclick="clearC()"><i class="fas fa-trash"></i> <span class="tx" data-key="clear">مسح</span></div>
+                <div class="citems" id="cI"></div>
+                <div class="csum"><div class="srow tot"><span class="tx" data-key="total">الإجمالي</span>: <span id="tot">0.00</span></div></div>
+                <div class="psection">
+                    <div class="pm">
+                        <button class="pbtn active" onclick="setPay('cash')"><i class="fas fa-money-bill-wave"></i> <span class="tx" data-key="cash">نقد</span></button>
+                        <button class="pbtn" onclick="setPay('card')"><i class="fas fa-credit-card"></i> <span class="tx" data-key="card">بطاقة</span></button>
+                        <button class="pbtn" onclick="setPay('transfer')"><i class="fas fa-exchange-alt"></i> <span class="tx" data-key="transfer">تحويل</span></button>
+                    </div>
+                    <button class="bchk" onclick="complete()"><i class="fas fa-check"></i> <span class="tx" data-key="chk">إتمام البيع</span></button>
+                </div>
+            </section>
+        </main>
+        <div class="modal" id="rM">
+            <div class="mc">
+                <div class="rh"><h2><i class="fas fa-receipt"></i> <span class="tx" data-key="receipt">الفاتورة</span></h2><button class="bcl" onclick="closeR()">&times;</button></div>
+                <div class="ri"><p><strong class="tx" data-key="rNum">الرقم</strong>: <span id="rN"></span></p><p><strong class="tx" data-key="date">التاريخ</strong>: <span id="rD"></span></p><p><strong class="tx" data-key="time">الوقت</strong>: <span id="rTi"></span></p></div>
+                <div class="ritems" id="rI"></div>
+                <div class="rtot"><p><strong class="tx" data-key="total">الإجمالي</strong>: <span id="rTo"></span></p></div>
+                <div class="rf"><p class="tx" data-key="thanks">شكراً</p><p class="tx" data-key="welcome">أهلاً وسهلاً</p></div>
+                <button class="bpr" onclick="printR()"><i class="fas fa-print"></i> <span class="tx" data-key="print">طباعة</span></button>
+            </div>
+        </div>
+        <div class="sm" id="sM">
+            <div class="smc">
+                <h2><i class="fas fa-cog"></i> <span class="tx" data-key="settings">الإعدادات</span></h2>
+                <div class="ssec"><h3><i class="fas fa-palette"></i> <span class="tx" data-key="theme">الثيم</span></h3><div class="topts"><button class="tbtn active" data-theme="light" onclick="setTheme('light')"><i class="fas fa-sun"></i> <span class="tx" data-key="light">فاتح</span></button><button class="tbtn" data-theme="dark" onclick="setTheme('dark')"><i class="fas fa-moon"></i> <span class="tx" data-key="dark">داكن</span></button></div></div>
+                <div class="ssec"><h3><i class="fas fa-language"></i> <span class="tx" data-key="lang">اللغة</span></h3><div class="lopts"><button class="lbtn active" data-lang="ar" onclick="setLang('ar')">🇸🇦 العربية</button><button class="lbtn" data-lang="en" onclick="setLang('en')">🇬🇧 English</button><button class="lbtn" data-lang="ku" onclick="setLang('ku')">🇹🇯 Kurmancî</button><button class="lbtn" data-lang="ckb" onclick="setLang('ckb')">🇹🇯 سۆرانی</button></div></div>
+                <button class="clbtn" onclick="closeSet()"><i class="fas fa-check"></i> <span class="tx" data-key="done">تم</span></button>
+            </div>
+        </div>
+    </div>
+    <input type="file" id="imgIn" class="hidden" accept="image/*" onchange="handleImg(event)">
+    <script>
+        const L = {
+            ar: { title: 'كاشير - Cacio', products: 'المنتجات', addP: 'إضافة منتج', search: 'ابحث...', kb: 'اضغط على مفتاح المنتج', todaySales: 'مبيعات اليوم', noSales: 'لا توجد مبيعات', sales: 'المبيعات', total: 'الإجمالي', grand: 'المجموع الكلي', delAll: 'حذف الكل', cart: 'السلة', clear: 'مسح', cash: 'نقد', card: 'بطاقة', transfer: 'تحويل', chk: 'إتمام البيع', receipt: 'الفاتورة', rNum: 'الرقم', date: 'التاريخ', time: 'الوقت', thanks: 'شكراً', welcome: 'أهلاً وسهلاً', print: 'طباعة', settings: 'الإعدادات', theme: 'الثيم', light: 'فاتح', dark: 'داكن', lang: 'اللغة', done: 'تم', empty: 'السلة فارغة', hint: 'اضغط على المنتجات' },
+            en: { title: 'Cashier - Cacio', products: 'Products', addP: 'Add Product', search: 'Search...', kb: 'Press product key', todaySales: "Today's Sales", noSales: 'No sales', sales: 'Sales', total: 'Total', grand: 'Grand Total', delAll: 'Delete All', cart: 'Cart', clear: 'Clear', cash: 'Cash', card: 'Card', transfer: 'Transfer', chk: 'Checkout', receipt: 'Receipt', rNum: 'Number', date: 'Date', time: 'Time', thanks: 'Thank you', welcome: 'Welcome again', print: 'Print', settings: 'Settings', theme: 'Theme', light: 'Light', dark: 'Dark', lang: 'Language', done: 'Done', empty: 'Cart empty', hint: 'Click products to add', close: 'Close', dailySummary: 'Daily Summary', finalReceipt: 'Final Receipt' },
+            ku: { title: 'Kasiyer - Cacio', products: 'Berhem', addP: 'Berhemekê Zêde Bike', search: 'Bigere...', kb: 'Bişkojê berhemê pêl bike', todaySales: 'Firotina Îro', noSales: 'Firotin tune', sales: 'Firotin', total: 'Tevahî', grand: 'Tevahiya Giştî', delAll: 'Hemû Jê Bibe', cart: 'Selik', clear: 'Paqij', cash: 'Pêşî', card: 'Kart', transfer: 'Veguhestin', chk: 'Temam Bike', receipt: 'Wergirtin', rNum: 'Hejmar', date: 'Dîrok', time: 'Dem', thanks: 'Spas', welcome: 'Dîsa bibînin', print: 'Çap Bike', settings: 'Eyar', theme: 'Tema', light: 'Ronahî', dark: 'Tarî', lang: 'Ziman', done: 'Temam', empty: 'Selik vala', hint: 'Li berheman bitikîne', close: 'Daxistin', dailySummary: 'Kevnebana îro', finalReceipt: 'Pela Pêşkêşkera' },
+            ckb: { title: 'کاشیر - Cacio', products: 'بەرهەمەکان', addP: 'زیادکردنی بەرهەم', search: 'بگەرە...', kb: 'کلیلی بەرهەمەکە داگرە', todaySales: 'فرۆشتی ئەمڕۆ', noSales: 'فرۆشت نییە', sales: 'فرۆشتەکان', total: 'کۆی گشتی', grand: 'کۆی گشتی', delAll: 'سڕینەوەی هەموو', cart: 'سەبەتە', clear: 'سڕینەوە', cash: 'نەقد', card: 'کارت', transfer: 'گواستنەوە', chk: 'تەواوکردن', receipt: 'وەرگرتن', rNum: 'ژمارە', date: 'بەروار', time: 'کات', thanks: 'سوپاس', welcome: 'بەخێربێیتەوە', print: 'چاپکردن', settings: 'ڕێکخستنەکان', theme: 'ڕووکار', light: 'ڕووناک', dark: 'تاریک', lang: 'زمان', done: 'تەواو', empty: 'سەبەتە بەتاڵە', hint: 'کرتە لەسەر بەرهەمەکان', close: 'داخستن', dailySummary: 'پێچانەوەی ئەمڕۆ', finalReceipt: 'پێچانەوەی کۆتایی' }
+        };
+        let lang = localStorage.getItem('lang') || 'ar', theme = localStorage.getItem('theme') || 'light';
+        let products = JSON.parse(localStorage.getItem('products') || '[]');
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        let payMethod = 'cash', imgIdx = -1;
+        let usedKeys = new Set(products.filter(p => p.key).map(p => p.key));
+        document.addEventListener('DOMContentLoaded', () => { applyTheme(theme); applyLang(lang); updateTime(); setInterval(updateTime,1000); renderP(); renderC(); loadS(); document.addEventListener('keydown', e => { if(e.target.tagName==='INPUT') return; const p = products.find(x => x.key === e.key.toUpperCase()); if(p) { e.preventDefault(); addC(p); showN(p.name); } }); });
+        function applyTheme(t) { 
+            if (t === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            document.querySelectorAll('.tbtn').forEach(b => b.classList.toggle('active', b.dataset.theme===t)); 
+        }
+        function setTheme(t) { theme=t; localStorage.setItem('theme',t); applyTheme(t); }
+        function applyLang(l) { const t = L[l]||L.ar; document.querySelectorAll('.tx').forEach(el => { const k = el.dataset.key; if(t[k]) el.textContent = t[k]; if(el.placeholder!==undefined && t[k]) el.placeholder = t[k]; }); document.documentElement.dir = (l==='ar'||l==='ckb')?'rtl':'ltr'; document.querySelectorAll('.lbtn').forEach(b => b.classList.toggle('active', b.dataset.lang===l)); }
+        function setLang(l) { lang=l; localStorage.setItem('lang',l); applyLang(l); }
+        function openSet() { document.getElementById('sM').classList.add('active'); }
+        function closeSet() { document.getElementById('sM').classList.remove('active'); }
+        function updateTime() { const n=new Date(); document.getElementById('cd').textContent=n.toLocaleDateString(); document.getElementById('ct').textContent=n.toLocaleTimeString(); }
+        function renderP() { const g=document.getElementById('pG'), c=document.getElementById('pC'); g.innerHTML=''; c.textContent=products.length; if(!products.length) { g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tl);">'+L[lang].addP+'</div>'; return; }
+            products.forEach((p,i) => { const d=document.createElement('div'); d.className='pc'; d.onclick=()=>addC(p); let img = (p.image&&p.image.startsWith('data:'))?`<img src="${p.image}">`: (p.image||'📦'); const kb = p.key?`<div class="pk">${p.key}</div>`:'';
+            d.innerHTML = `${kb}<div class="pi">${img}<div class="up"><i class="fas fa-camera"></i></div></div><div class="pn">${p.name}</div><div class="pp">$${p.price.toFixed(2)}</div><div class="pa"><button class="add" onclick="event.stopPropagation();addCById(${p.id})"><i class="fas fa-plus"></i></button><button class="key" onclick="event.stopPropagation();assignK(${i})"><i class="fas fa-keyboard"></i></button><button class="img" onclick="event.stopPropagation();openImg(${i})"><i class="fas fa-image"></i></button><button class="ed" onclick="event.stopPropagation();editP(${i})"><i class="fas fa-edit"></i></button><button class="del" onclick="event.stopPropagation();delP(${i})"><i class="fas fa-trash"></i></button></div>`;
+            d.querySelector('.pi').onclick=(e)=>{e.stopPropagation();openImg(i);}; g.appendChild(d); });
+        }
+        function searchP() { const t=document.getElementById('src').value.toLowerCase(); const f=products.filter(p=>p.name.toLowerCase().includes(t)); const g=document.getElementById('pG'); g.innerHTML=''; if(!f.length) { g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--tl);">-</div>'; return; } document.getElementById('pC').textContent=f.length; f.forEach((p,i)=>{ const oi=products.indexOf(p); const d=document.createElement('div'); d.className='pc'; d.onclick=()=>addC(p); let img=(p.image&&p.image.startsWith('data:'))?`<img src="${p.image}">`:(p.image||'📦'); const kb=p.key?`<div class="pk">${p.key}</div>`:'';
+            d.innerHTML=`${kb}<div class="pi">${img}<div class="up"><i class="fas fa-camera"></i></div></div><div class="pn">${p.name}</div><div class="pp">$${p.price.toFixed(2)}</div><div class="pa"><button class="add" onclick="event.stopPropagation();addCById(${p.id})"><i class="fas fa-plus"></i></button><button class="key" onclick="event.stopPropagation();assignK(${oi})"><i class="fas fa-keyboard"></i></button><button class="img" onclick="event.stopPropagation();openImg(${oi})"><i class="fas fa-image"></i></button><button class="ed" onclick="event.stopPropagation();editP(${oi})"><i class="fas fa-edit"></i></button><button class="del" onclick="event.stopPropagation();delP(${oi})"><i class="fas fa-trash"></i></button></div>`;
+            d.querySelector('.pi').onclick=(e)=>{e.stopPropagation();openImg(oi);}; g.appendChild(d); });
+        }
+        function assignK(i) { const p=products[i]; const k=prompt('Key:', p.key||''); if(!k) return; const uk=k.toUpperCase(); if(usedKeys.has(uk)&&products[i].key!==uk) { if(!confirm('Used! Replace?')) return; } products[i].key=uk; usedKeys=new Set(products.filter(x=>x.key).map(x=>x.key)); localStorage.setItem('products',JSON.stringify(products)); renderP(); }
+        function openImg(i) { imgIdx=i; document.getElementById('imgIn').click(); }
+        function handleImg(e) { const f=e.target.files[0]; if(!f||imgIdx<0) return; const r=new FileReader(); r.onload=function(ev) { products[imgIdx].image=ev.target.result; localStorage.setItem('products',JSON.stringify(products)); renderP(); imgIdx=-1; }; r.readAsDataURL(f); e.target.value=''; }
+        function editP(i) { const p=products[i]; const n=prompt('Name:', p.name); if(!n) return; const pr=parseFloat(prompt('Price:', p.price)); if(isNaN(pr)||pr<0) return; products[i].name=n; products[i].price=pr; localStorage.setItem('products',JSON.stringify(products)); renderP(); }
+        function delP(i) { if(confirm('Delete?')) { products.splice(i,1); localStorage.setItem('products',JSON.stringify(products)); renderP(); } }
+        function addP() { const n=prompt('Name:'); if(!n) return; const pr=parseFloat(prompt('Price:')); if(isNaN(pr)||pr<0) return; products.push({id:Date.now(),name:n,price:pr,image:'📦',key:''}); localStorage.setItem('products',JSON.stringify(products)); renderP(); }
+        function addCById(id) { const p=products.find(x=>x.id===id); if(p) addC(p); }
+        function addC(p) { const e=cart.find(i=>i.id===p.id); if(e) e.quantity++; else cart.push({...p,quantity:1}); renderC(); saveC(); }
+        function renderC() { const i=document.getElementById('cI'), c=document.getElementById('cC'); i.innerHTML=''; let t=0; if(!cart.length) { i.innerHTML=`<div class="cempty"><i class="fas fa-shopping-cart"></i><p>${L[lang].empty}</p><p style="color:#9ca3af;font-size:14px;margin-top:10px;">${L[lang].hint}</p></div>`; c.textContent='0'; document.getElementById('tot').textContent='$0.00'; return; }
+            c.textContent=cart.reduce((s,x)=>s+x.quantity,0); cart.forEach((x,idx)=>{ const it=x.price*x.quantity; t+=it; const d=document.createElement('div'); d.className='cit';
+            d.innerHTML=`<div class="cii"><div class="cin">${x.name}</div><div class="cip">$${x.price.toFixed(2)}</div></div><div style="display:flex;align-items:center;gap:10px;"><div style="background:#e5e7eb;padding:4px 8px;border-radius:6px;color:#1f2937;font-weight:600;">${x.quantity}</div><span class="citot">$${it.toFixed(2)}</span><button class="rm" onclick="rmC(${idx})">×</button></div>`; i.appendChild(d); });
+            document.getElementById('tot').textContent='$'+t.toFixed(2);
+        }
+        function rmC(i) { cart.splice(i,1); renderC(); saveC(); }
+        function clearC() { if(!cart.length) return; if(confirm('Clear?')) { cart=[]; renderC(); saveC(); } }
+        function saveC() { localStorage.setItem('cart',JSON.stringify(cart)); }
+        function setPay(m) { payMethod=m; document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active')); const a=Array.from(document.querySelectorAll('.pbtn')).find(b=>b.textContent.includes(m==='cash'?L[lang].cash:m==='card'?L[lang].card:L[lang].transfer)); if(a) a.classList.add('active'); }
+        function complete() { if(!cart.length) { alert(L[lang].empty); return; } const t=parseFloat(document.getElementById('tot').textContent.replace('$','')); saveT(); showR(t); cart=[]; renderC(); saveC(); loadS(); }
+        function showR(total) { const num='INV-'+Date.now().toString().slice(-8); const d=new Date(); document.getElementById('rN').textContent=num; document.getElementById('rD').textContent=d.toLocaleDateString(); document.getElementById('rTi').textContent=d.toLocaleTimeString(); document.getElementById('rTo').textContent='$'+total.toFixed(2); const i=document.getElementById('rI'); i.innerHTML=''; cart.forEach(x=>{ const it=document.createElement('div'); it.className='rit'; it.innerHTML=`<span class="ritn">${x.name}</span><span class="ritp">$${(x.price*x.quantity).toFixed(2)}</span>`; i.appendChild(it); }); document.getElementById('rM').classList.add('active'); }
+        
+        // Final receipt function - shows all daily sales aggregated
+        // Store final receipt data for language updates
+        let finalReceiptData = null;
+        
+        function printFinalReceipt() {
+            const ts = JSON.parse(localStorage.getItem('transactions') || '[]');
+            if (!ts.length) {
+                alert(L[lang].noSales);
+                return;
+            }
+            
+            // Filter today's transactions
+            const today = new Date().toDateString();
+            const todayTransactions = ts.filter(t => {
+                const tDate = new Date(t.date).toDateString();
+                return tDate === today;
+            });
+            
+            if (!todayTransactions.length) {
+                alert(L[lang].noSales);
+                return;
+            }
+            
+            const d = new Date();
+            const receiptNum = 'DAILY-' + Date.now().toString().slice(-8);
+            const t = L[lang];
+            
+            // Store data for language updates
+            finalReceiptData = {
+                total: 0,
+                products: []
+            };
+            
+            // Create daily summary with language support
+            let dailySummaryHTML = '<div class="daily-summary"><h3 class="tx" data-key="dailySummary">' + t.dailySummary + ' - ' + d.toLocaleDateString() + '</h3>';
+            
+            // Group by product
+            const productTotals = {};
+            let grandTotal = 0;
+            
+            todayTransactions.forEach(tr => {
+                if (tr.items) {
+                    tr.items.forEach(item => {
+                        if (productTotals[item.name]) {
+                            productTotals[item.name].quantity += item.quantity;
+                            productTotals[item.name].total += item.total;
+                        } else {
+                            productTotals[item.name] = {
+                                quantity: item.quantity,
+                                total: item.total,
+                                price: item.price
+                            };
+                        }
+                        grandTotal += item.total;
+                        
+                        // Store product for language updates
+                        if (!finalReceiptData.products.find(p => p.name === item.name)) {
+                            finalReceiptData.products.push({
+                                name: item.name,
+                                quantity: item.quantity,
+                                price: item.price,
+                                total: item.total
+                            });
+                        }
+                    });
+                }
+            });
+            
+            finalReceiptData.total = grandTotal;
+            
+            dailySummaryHTML += '<div class="ritems">';
+            Object.keys(productTotals).forEach(name => {
+                const p = productTotals[name];
+                dailySummaryHTML += `<div class="rit"><span class="ritn">${name}</span><span class="ritp">$${p.total.toFixed(2)} (${p.quantity} × $${p.price.toFixed(2)})</span></div>`;
+            });
+            dailySummaryHTML += '</div>';
+            
+            dailySummaryHTML += `<div class="rtot"><p><strong>${t.total}</strong>: <span>$${grandTotal.toFixed(2)}</span></p></div>`;
+            dailySummaryHTML += `<div class="rf"><p class="tx" data-key="thanks">${t.thanks}</p><p class="tx" data-key="welcome">${t.welcome}</p></div>`;
+            
+            // Create modal content for final receipt with language support
+            const modalHTML = `
+                <div class="modal" id="fR" style="display:flex">
+                    <div class="mc">
+                        <div class="rh">
+                            <h2><i class="fas fa-file-invoice-dollar"></i> <span class="tx" data-key="finalReceipt">${t.finalReceipt}</span></h2>
+                            <button class="bcl" onclick="closeFinalReceipt()">&times;</button>
+                        </div>
+                        <div class="ri">
+                            <p><strong class="tx" data-key="rNum">${t.rNum}</strong>: <span>${receiptNum}</span></p>
+                            <p><strong class="tx" data-key="date">${t.date}</strong>: <span>${d.toLocaleDateString()}</span></p>
+                            <p><strong class="tx" data-key="time">${t.time}</strong>: <span>${d.toLocaleTimeString()}</span></p>
+                        </div>
+                        ${dailySummaryHTML}
+                        <button class="bpr" onclick="window.print()"><i class="fas fa-print"></i> <span class="tx" data-key="print">${t.print}</span></button>
+                        <button class="bpr" onclick="closeFinalReceipt()" style="background:var(--b);margin-top:10px;"><span class="tx" data-key="close">${t.close}</span></button>
+                    </div>
+                </div>
+            `;
+            
+            // Insert the modal into body if it doesn't exist
+            if (!document.getElementById('fR')) {
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
+            } else {
+                const existingModal = document.getElementById('fR');
+                existingModal.innerHTML = modalHTML.replace(/<div class="modal".*?>/, '<div class="modal" style="display:flex">');
+            }
+        }
+        
+        function updateFinalReceipt() {
+            const modal = document.getElementById('fR');
+            if (!modal || !finalReceiptData) return;
+            
+            const t = L[lang];
+            
+            // Update header
+            const h2 = modal.querySelector('.rh h2 .tx[data-key="finalReceipt"]');
+            if (h2) h2.textContent = t.finalReceipt;
+            
+            // Update receipt info
+            const rNum = modal.querySelector('p strong[data-key="rNum"]');
+            if (rNum) rNum.textContent = t.rNum;
+            
+            const rDate = modal.querySelector('p strong[data-key="date"]');
+            if (rDate) rDate.textContent = t.date;
+            
+            const rTime = modal.querySelector('p strong[data-key="time"]');
+            if (rTime) rTime.textContent = t.time;
+            
+            // Update total section
+            const totalStrong = modal.querySelector('.rtot p strong');
+            if (totalStrong) totalStrong.textContent = t.total;
+            
+            // Update footer
+            const thanks = modal.querySelector('.rf p.tx[data-key="thanks"]');
+            const welcome = modal.querySelector('.rf p.tx[data-key="welcome"]');
+            if (thanks) thanks.textContent = t.thanks;
+            if (welcome) welcome.textContent = t.welcome;
+            
+            // Update buttons
+            const printBtn = modal.querySelector('button[onclick*="window.print"]');
+            const closeBtn = modal.querySelector('button[onclick*="closeFinalReceipt"]');
+            if (printBtn) {
+                const pb = printBtn.querySelector('.tx[data-key="print"]');
+                if (pb) pb.textContent = t.print;
+            }
+            if (closeBtn) {
+                const cb = closeBtn.querySelector('.tx[data-key="close"]');
+                if (cb) cb.textContent = t.close;
+            }
+            
+            // Update daily summary
+            const summaryH3 = modal.querySelector('.daily-summary h3 .tx[data-key="dailySummary"]');
+            if (summaryH3) summaryH3.textContent = t.dailySummary;
+        }
+        
+        function closeFinalReceipt() {
+            const modal = document.getElementById('fR');
+            if (modal) {
+                modal.remove();
+            }
+            finalReceiptData = null;
+        }
+        function closeR() { document.getElementById('rM').classList.remove('active'); }
+        function printR() { window.print(); }
+        function saveT() { const ts=JSON.parse(localStorage.getItem('transactions')||'[]'); const t=parseFloat(document.getElementById('tot').textContent.replace('$','')); ts.push({id:Date.now(),receiptNumber:'INV-'+Date.now().toString().slice(-8),date:new Date().toLocaleString(),items:cart.map(x=>({name:x.name,price:x.price,quantity:x.quantity,total:x.price*x.quantity})),total:t,paymentMethod:payMethod}); localStorage.setItem('transactions',JSON.stringify(ts)); }
+        function loadS() { const ts=JSON.parse(localStorage.getItem('transactions')||'[]'); const e=document.getElementById('sE'), co=document.getElementById('sCo'), c=document.getElementById('sC'), t=document.getElementById('sT'), g=document.getElementById('sG'), it=document.getElementById('sI'); if(!ts.length) { e.style.display='block'; co.style.display='none'; c.textContent='0'; t.textContent='0.00'; g.textContent='0.00'; it.innerHTML=''; return; }
+            e.style.display='none'; co.style.display='block'; let gt=0; it.innerHTML=''; 
+            // Aggregate products from all transactions
+            const productTotals = {};
+            ts.forEach(tr => {
+                if (tr.items) {
+                    tr.items.forEach(item => {
+                        if (productTotals[item.name]) {
+                            productTotals[item.name].quantity += item.quantity;
+                            productTotals[item.name].total += item.total;
+                        } else {
+                            productTotals[item.name] = {
+                                quantity: item.quantity,
+                                total: item.total,
+                                price: item.price
+                            };
+                        }
+                    });
+                }
+                gt += tr.total || 0;
+            });
+            // Display aggregated products
+            Object.keys(productTotals).forEach(name => {
+                const p = productTotals[name];
+                const d = document.createElement('div'); d.className='sit';
+                d.innerHTML=`<div class="sii"><span class="sin">${name}</span><span class="sid">الكمية: ${p.quantity} × $${p.price.toFixed(2)}</span></div><span class="sitot">$${p.total.toFixed(2)}</span>`;
+                it.appendChild(d);
+            });
+            c.textContent=ts.length; t.textContent='$'+gt.toFixed(2); g.textContent='$'+gt.toFixed(2);
+        }
+        function delSale(i) { if(confirm('Delete?')) { const ts=JSON.parse(localStorage.getItem('transactions')||'[]'); ts.splice(i,1); localStorage.setItem('transactions',JSON.stringify(ts)); loadS(); } }
+        function delAll() { const pwd=prompt('🔒 Password:'); if(pwd===null) return; if(pwd!=='1234567890') { alert('❌ Wrong!'); return; } if(confirm('Delete all?')) { localStorage.setItem('transactions','[]'); loadS(); alert('✅ Done'); } }
+        function showN(name) { const n=document.createElement('div'); n.className='kn'; n.innerHTML=`<i class="fas fa-cart-plus"></i> ${name}`; document.body.appendChild(n); setTimeout(()=>n.remove(),800); }
+    </script>
+</body>
+</html>
